@@ -12,8 +12,6 @@ import NfcManager, { NfcTech } from 'react-native-nfc-manager';
 
 
 export default function App() {
-    // Pre-step, call this before any NFC operations
-    NfcManager.start();
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -103,25 +101,48 @@ export default function App() {
 
     async function readNdef() {
         try {
-            // register for the NFC tag with NDEF in it
-            await NfcManager.requestTechnology(NfcTech.Ndef);
-            // the resolved tag object will contain `ndefMessage` property
+            // Request NFC technology
+            await NfcManager.requestTechnology(NfcTech.IsoDep);
+
+            // Get tag information
             const tag = await NfcManager.getTag();
-            console.warn('Tag found', tag);
+            console.log('Tag found:', tag);
+
+            // Send APDU commands to IsoDep card
+            const response = await NfcManager.isoDepHandler.transceive([
+                0x00, 0xA4, 0x04, 0x00, 0x07, 0xA0, 0x00, 0x00, 0x02, 0x47, 0x10, 0x01
+            ]);
+
+            console.log('APDU Response:', response);
+
+            return {
+                tag,
+                response
+            };
         } catch (ex) {
-            console.warn('Oops!', ex);
+            console.warn('Error reading IsoDep tag:', ex);
+            throw ex;
         } finally {
-            // stop the nfc scanning
-            NfcManager.cancelTechnologyRequest();
+            // Clean up
+            await NfcManager.cancelTechnologyRequest();
         }
     }
 
 
     useEffect(() => {
-
-
         getCurrentLocation();
+        initNFC();
     }, []);
+
+
+    async function initNFC() {
+        try {
+            await NfcManager.start();
+            console.log('NFC started successfully');
+        } catch (ex) {
+            console.warn('NFC start failed:', ex);
+        }
+    }
 
     async function getCurrentLocation() {
 

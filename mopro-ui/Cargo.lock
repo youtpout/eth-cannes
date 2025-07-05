@@ -569,9 +569,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.28"
+version = "1.2.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ad45f4f74e4e20eaa392913b7b33a7091c87e59628f4dd27888205ad888843c"
+checksum = "5c1599538de2394445747c8cf7935946e3cc27e9625f889d979bfb2aaf569362"
 dependencies = [
  "jobserver",
  "libc",
@@ -1711,21 +1711,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "mopro"
-version = "0.1.0"
-dependencies = [
- "mopro-ffi",
- "mopro-wasm",
- "num-bigint",
- "rust-witness",
- "thiserror 2.0.12",
- "uniffi",
-]
-
-[[package]]
 name = "mopro-ffi"
 version = "0.2.0"
-source = "git+https://github.com/zkmopro/mopro.git#95b81cc56925d15134bb969be31e04d222f9670f"
+source = "git+https://github.com/zkmopro/mopro.git#380d46820207f15687cc27dca02eec2d29a80f26"
 dependencies = [
  "anyhow",
  "camino",
@@ -1740,9 +1728,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "mopro-ui"
+version = "0.1.0"
+dependencies = [
+ "mopro-ffi",
+ "mopro-wasm",
+ "num-bigint",
+ "rust-witness",
+ "thiserror 2.0.12",
+ "uniffi",
+]
+
+[[package]]
 name = "mopro-wasm"
 version = "0.1.0"
-source = "git+https://github.com/zkmopro/mopro.git#95b81cc56925d15134bb969be31e04d222f9670f"
+source = "git+https://github.com/zkmopro/mopro.git#380d46820207f15687cc27dca02eec2d29a80f26"
 dependencies = [
  "console_error_panic_hook",
  "getrandom 0.2.16",

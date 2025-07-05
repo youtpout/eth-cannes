@@ -8,8 +8,12 @@ import * as FileSystem from "expo-file-system";
 import * as Location from 'expo-location';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import NfcManager, { NfcTech } from 'react-native-nfc-manager';
+
 
 export default function App() {
+    // Pre-step, call this before any NFC operations
+    NfcManager.start();
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -97,6 +101,22 @@ export default function App() {
         }
     }
 
+    async function readNdef() {
+        try {
+            // register for the NFC tag with NDEF in it
+            await NfcManager.requestTechnology(NfcTech.Ndef);
+            // the resolved tag object will contain `ndefMessage` property
+            const tag = await NfcManager.getTag();
+            console.warn('Tag found', tag);
+        } catch (ex) {
+            console.warn('Oops!', ex);
+        } finally {
+            // stop the nfc scanning
+            NfcManager.cancelTechnologyRequest();
+        }
+    }
+
+
     useEffect(() => {
 
 
@@ -148,6 +168,7 @@ export default function App() {
                 />
             </View>
             <Text style={styles.errorText}>{errorMsg}</Text>
+            <Button title="Scan NFC" onPress={() => readNdef()} />
             <Button title="Get location" onPress={() => getCurrentLocation()} />
             <Button title="Generate Noir Proof" onPress={() => genProof()} />
             <Button title="Verify Noir Proof" onPress={() => verifyProof()} />

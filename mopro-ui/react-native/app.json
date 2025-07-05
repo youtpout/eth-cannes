@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.react-native-app",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Allow the app to use your location."
+        "NSLocationWhenInUseUsageDescription": "Allow the app to use your location.",
+        "NFCReaderUsageDescription":"Allow the app to use your location."
       }
     },
     "android": {
@@ -33,11 +34,19 @@
     },
     "plugins": [
       "expo-router",
-            "expo-router",
        [
       "expo-location",
         {
           "locationWhenInUsePermission": "Allow the app to use your location."
+        }
+      ],
+      [
+        "react-native-nfc-manager",
+        {
+          "nfcPermission": "Custom permission message",
+          "selectIdentifiers": ["A0000002471001"],
+          "systemCodes": ["8008"],
+          "includeNdefEntitlement": false
         }
       ]
     ],

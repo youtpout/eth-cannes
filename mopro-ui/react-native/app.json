@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "proof-of-participation",
-    "slug": "proof-of-participation",
+    "name": "react-native-app",
+    "slug": "react-native-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,9 +14,9 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ethglobal.pop",
+      "bundleIdentifier": "com.anonymous.react-native-app",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location."
+        "NSLocationWhenInUseUsageDescription": "Allow the app to use your location."
       }
     },
     "android": {
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ethglobal.pop"
+      "package": "com.anonymous.reactnativeapp"
     },
     "web": {
       "bundler": "metro",
@@ -33,10 +33,11 @@
     },
     "plugins": [
       "expo-router",
+            "expo-router",
        [
-        "expo-location",
+      "expo-location",
         {
-          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+          "locationWhenInUsePermission": "Allow the app to use your location."
         }
       ]
     ],

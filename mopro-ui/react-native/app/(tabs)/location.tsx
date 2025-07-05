@@ -1,36 +1,51 @@
+import { useState, useEffect } from 'react';
+import { Platform, Text, View, StyleSheet } from 'react-native';
+
 import * as Location from 'expo-location';
-import { useEffect, useState } from 'react';
-import {
-    Image,
-    StyleSheet,
-    Button,
-    TextInput,
-    View,
-    Text,
-    Platform,
-    Pressable,
-    ScrollView,
-} from "react-native";
 
 export default function App() {
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    async function getCurrentLocation() {
+      
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        console.log('Permission refusée');
+        setErrorMsg('Permission to access location was denied');
         return;
       }
 
-      let loc = await Location.getCurrentPositionAsync({});
-      setLocation(loc);
-    })();
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    }
+
+    getCurrentLocation();
   }, []);
 
+  let text = 'Waiting...';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
   return (
-    <Text>
-      Latitude: {location?.coords.latitude}, Longitude: {location?.coords.longitude}
-    </Text>
+    <View style={styles.container}>
+      <Text style={styles.paragraph}>{text}</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  paragraph: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
+});

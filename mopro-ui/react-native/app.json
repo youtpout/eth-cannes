@@ -17,7 +17,15 @@
       "bundleIdentifier": "com.anonymous.react-native-app",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Allow the app to use your location.",
-        "NFCReaderUsageDescription":"Allow the app to use your location."
+        "NFCReaderUsageDescription": "This app needs access to NFC to read tags",
+        "com.apple.developer.nfc.readersession.formats": [
+          "NDEF",
+          "TAG"
+        ],
+         "com.apple.developer.nfc.readersession.iso7816.select-identifiers": [
+        "A0000002471001",
+        "A0000002472001"
+      ]
       }
     },
     "android": {
@@ -42,11 +50,10 @@
       ],
       [
         "react-native-nfc-manager",
-        {
-          "nfcPermission": "Custom permission message",
-          "selectIdentifiers": ["A0000002471001"],
-          "systemCodes": ["8008"],
-          "includeNdefEntitlement": false
+         {
+          "nfcReaderUsageDescription": "This app needs access to NFC to read tags",
+          "selectIdentifiers": ["A0000002471001", "A0000002472001"],
+          "systemCodes": ["8008", "4000"]
         }
       ]
     ],

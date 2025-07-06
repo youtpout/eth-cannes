@@ -23,7 +23,6 @@ contract NFT is ERC721 {
         bytes calldata proof
     ) public returns (uint256) {
         bytes32[] memory publicInputs = new bytes32[](0);
-        //publicInputs[0] = bytes32(uint256(uint160(to)));
         require(verifier.verify(proof, publicInputs), "Invalid proof");
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);

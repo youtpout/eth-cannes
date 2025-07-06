@@ -1,6 +1,6 @@
-// Palais des festivals Cannes Latitude : 43,5513755 Longitude : 7,017384
+// Palais des festivals Cannes Latitude : 43,5513755 Longitude : 7,017384 43.5513755 7.017384
 
-fn main(lat: i64, long: i64, address: Field) {
+fn main(lat: i64, long: i64) {
     // coord x 1_000_000
     let latCannes: i64 = 43_551_375;
     let longCannes: i64 = 7_017_384;
@@ -24,8 +24,6 @@ fn main(lat: i64, long: i64, address: Field) {
 
     // due to calculation precision and gps phone precision, we use 500m as max distance
     assert(dist < 500, "You are too far from Palais des congrès");
-
-    assert(address != 0, "Invalid address");
 }
 
 /// Approximate square root using Newton's method (on i64)
@@ -39,7 +37,7 @@ fn sqrt_approx(x: i64) -> i64 {
 
 #[test]
 fn test_main() {
-    main(43_549_755, 7_018_199, 0x3);
+    main(43_549_755, 7_018_199);
 
     // Uncomment to make test fail
     // main(1, 1);
@@ -47,15 +45,7 @@ fn test_main() {
 
 #[test(should_fail_with = "You are too far from Palais des congrès")]
 fn test_fail_distance() {
-    main(42_549_755, 6_018_199, 0x3);
-
-    // Uncomment to make test fail
-    // main(1, 1);
-}
-
-#[test(should_fail_with = "Invalid address")]
-fn test_fail_address() {
-    main(43_549_755, 7_018_199, 0);
+    main(42_549_755, 6_018_199);
 
     // Uncomment to make test fail
     // main(1, 1);

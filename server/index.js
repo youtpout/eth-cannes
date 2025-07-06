@@ -6,6 +6,8 @@ const abi = [{ "inputs": [{ "internalType": "address", "name": "to", "type": "ad
 const app = express();
 app.use(express.json());
 
+console.log(process.env.RPC_URL)
+
 const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, abi, wallet);

@@ -18,8 +18,9 @@ export default function App() {
     const [proof, setProof] = useState<Uint8Array>(new Uint8Array());
     const [isValid, setIsValid] = useState<string>("");
 
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState(43.5513755);
+    const [longitude, setLongitude] = useState(7.017384);
+    const [address, setAddress] = useState("0x1D95dBD536F114258c0a50BC7194eF4504ec9427");
 
     async function genProof(): Promise<void> {
         const lat = (latitude * 1_000_000).toFixed(0);
@@ -56,7 +57,7 @@ export default function App() {
                 setProof(res);
             } catch (error) {
                 console.error("Error generating proof:", error);
-                setErrorMsg("Error generating proof: " + error);
+                setErrorMsg("Error generating proof, maybe you are too far from palais des congrès");
             }
         }
     }
@@ -100,7 +101,7 @@ export default function App() {
     useEffect(() => {
 
 
-        getCurrentLocation();
+       // getCurrentLocation();
     }, []);
 
     async function getCurrentLocation() {
@@ -127,6 +128,29 @@ export default function App() {
         text = JSON.stringify(location);
     }
 
+    async function mintNFT() {
+        try {
+            const response = await fetch('https://localhost:3000/mint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ address, proof }),
+            });
+            if (!response.ok) {
+                const err = await response.text();
+                throw new Error(`Erreur serveur : ${err}`);
+            }
+            const data = await response.json();
+            console.log('NFT minté avec succès :', data.txHash);
+            return data;
+        } catch (error) {
+            console.error('Erreur mint NFT :', error);
+            throw error;
+        }
+    }
+
+
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
@@ -147,10 +171,20 @@ export default function App() {
                     keyboardType="decimal-pad"
                 />
             </View>
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Address</Text>
+                <TextInput
+                    style={styles.input}
+                    value={address}
+                    onChangeText={setAddress}
+                    keyboardType="default"
+                />
+            </View>
             <Text style={styles.errorText}>{errorMsg}</Text>
             <Button title="Get location" onPress={() => getCurrentLocation()} />
             <Button title="Generate Noir Proof" onPress={() => genProof()} />
             <Button title="Verify Noir Proof" onPress={() => verifyProof()} />
+            <Button title="Mint" onPress={() => mintNFT()} />
             <ThemedView style={styles.stepContainer}>
                 <ThemedText type="subtitle">Proof is Valid:</ThemedText>
                 <Text style={styles.output}>{isValid}</Text>

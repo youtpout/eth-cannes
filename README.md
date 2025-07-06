@@ -22,3 +22,5 @@ Compile srs file from noir.json
 ```
 cargo run --bin srs_downloader --features srs-downloader -- -c ../noir/target/noir.json
 ```
+
+Copy it in mopro-ui test-vectors/noir and react-native/assets/keys

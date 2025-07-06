@@ -84,7 +84,15 @@ const config: HardhatUserConfig = {
       url: configVariable("SEPOLIA_RPC_URL"),
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
+    mantleSepolia: {
+      type: "http",
+      url: 'https://rpc.sepolia.mantle.xyz', // Sepolia Testnet
+      accounts: [process.env.ACCOUNT_PRIVATE_KEY ?? ''],
+      gasPrice: 20000000,
+    },
+
   },
+
 };
 
 export default config;

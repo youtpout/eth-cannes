@@ -27,6 +27,12 @@ const config: HardhatUserConfig = {
        */
       default: {
         version: "0.8.28",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
       },
       /*
        * The production profile is meant to be used for deployments, providing
